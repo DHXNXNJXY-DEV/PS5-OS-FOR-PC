@@ -3,115 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayStation Official Options</title>
+    <title>PlayStation Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111127;
+            --accent: #00d4ff;
+            --accent-glow: #00d4ff40;
+            --white: #ffffff;
+            --text: #e0e0e0;
+            --glass: rgba(255,255,255,0.05);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--white);
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, var(--accent-glow), transparent),
+                radial-gradient(2px 2px at 40px 70px, var(--accent), transparent),
+                radial-gradient(1px 1px at 90px 40px, var(--accent-glow), transparent),
+                radial-gradient(1px 1px at 130px 80px, var(--accent), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: float 20s infinite linear;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
             text-align: center;
-            background: rgba(255,255,255,0.1);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
         }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+
+        .logo {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #ff00ff, #00ff88);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin: 2rem 0;
+            font-weight: 500;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(255,65,108,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 20px 40px rgba(255,65,108,0.3); }
+            50% { box-shadow: 0 20px 60px rgba(255,65,108,0.5); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 40px 80px var(--accent-glow);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: var(--accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .official-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
+
+        .card p {
+            opacity: 0.8;
+            line-height: 1.6;
         }
-        .link-card {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
+
+        .cta {
+            text-align: center;
+            padding: 4rem 2rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            opacity: 0.9;
         }
-        .link-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(255,107,107,0.4);
-        }
-        .link-card a {
-            color: #4ecdc4;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        .warning {
-            background: #ff4757;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-weight: bold;
-        }
+
         @media (max-width: 768px) {
-            h1 { font-size: 2em; }
-            .container { padding: 20px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .hero { padding: 0 2rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎮 PlayStation Official</h1>
+    <section class="hero">
+        <div class="logo">PS Portal</div>
+        <p class="tagline">Your official gateway to PlayStation gaming on any device</p>
         
         <div class="warning">
-            ⚠️ PlayStation OS is proprietary Sony software. 
-            Downloading it for PC is illegal. Use official options below!
+            ⚠️ PlayStation OS is proprietary. Downloading for PC is illegal. 
+            Choose official streaming services below!
         </div>
+    </section>
 
-        <div class="official-links">
-            <div class="link-card">
-                <a href="https://www.playstation.com/en-us/ps5/" target="_blank">
-                    🖥️ PS5 Official Site
-                </a>
-                <p>Buy PS5 console & games</p>
-            </div>
-            <div class="link-card">
-                <a href="https://remoteplay.dl.playstation.net/remoteplay/lang/en/1100009.html" target="_blank">
-                    📱 PS Remote Play
-                </a>
-                <p>Stream PS5/PS4 to PC legally</p>
-            </div>
-            <div class="link-card">
-                <a href="https://www.playstation.com/en-us/ps-plus/" target="_blank">
-                    ☁️ PS Plus Cloud
-                </a>
-                <p>Cloud streaming service</p>
-            </div>
-            <div class="link-card">
-                <a href="https://store.playstation.com/" target="_blank">
-                    🛒 PS Store
-                </a>
-                <p>Digital games & apps</p>
-            </div>
+    <section class="cards-grid">
+        <div class="card">
+            <span class="card-icon">🖥️</span>
+            <h3>PS5 Console</h3>
+            <p>Official PlayStation 5 hardware and digital storefront</p>
+            <a href="https://www.playstation.com/en-us/ps5/" target="_blank" 
+               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Launch PS5.com →</a>
         </div>
+        
+        <div class="card">
+            <span class="card-icon">📱</span>
+            <h3>Remote Play</h3>
+            <p>Stream your PS5/PS4 games to PC, phone, or tablet</p>
+            <a href="https://remoteplay.dl.playstation.net/remoteplay/lang/en/1100009.html" target="_blank" 
+               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Get Remote Play →</a>
+        </div>
+        
+        <div class="card">
+            <span class="card-icon">☁️</span>
+            <h3>PS Plus Premium</h3>
+            <p>Cloud streaming with 400+ PS games on-demand</p>
+            <a href="https://www.playstation.com/en-us/ps-plus/" target="_blank" 
+               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Subscribe Now →</a>
+        </div>
+        
+        <div class="card">
+            <span class="card-icon">🛒</span>
+            <h3>PlayStation Store</h3>
+            <p>Thousands of games, DLC, and exclusives</p>
+            <a href="https://store.playstation.com/" target="_blank" 
+               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Visit Store →</a>
+        </div>
+    </section>
 
-        <p style="opacity: 0.8; font-size: 1.1em;">
-            Support PlayStation creators with legitimate services! 🚀
-        </p>
+    <div class="cta">
+        🎮 Play legally. Support creators. Game forever.
     </div>
 </body>
 </html>
