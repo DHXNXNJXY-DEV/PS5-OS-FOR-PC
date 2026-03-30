@@ -3,239 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayStation Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>PlayStation Emulator Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #111127;
-            --accent: #00d4ff;
-            --accent-glow: #00d4ff40;
-            --white: #ffffff;
-            --text: #e0e0e0;
-            --glass: rgba(255,255,255,0.05);
+            --bg: #0a0a0f;
+            --glass: rgba(255,255,255,0.08);
+            --accent: #00ff88;
+            --accent-glow: #00ff8840;
+            --purple: #8b5cf6;
+            --gradient: linear-gradient(135deg, #00ff88, #00d4ff, #8b5cf6);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--white);
-            min-height: 100vh;
+            background: var(--bg);
+            color: white;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Animated background particles */
-        body::before {
-            content: '';
+        /* Animated cosmic background */
+        .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, var(--accent-glow), transparent),
-                radial-gradient(2px 2px at 40px 70px, var(--accent), transparent),
-                radial-gradient(1px 1px at 90px 40px, var(--accent-glow), transparent),
-                radial-gradient(1px 1px at 130px 80px, var(--accent), transparent);
-            background-repeat: repeat;
-            background-size: 200px 100px;
-            animation: float 20s infinite linear;
-            z-index: -1;
-            opacity: 0.3;
+            background: 
+                radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+                radial-gradient(1px 1px at 80% 80%, var(--accent), transparent),
+                radial-gradient(2px 2px at 40% 60%, #8b5cf6, transparent);
+            animation: twinkle 20s infinite linear;
+            z-index: -2;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-100px) rotate(360deg); }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
         }
 
-        .hero {
-            height: 100vh;
+        header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
-            position: relative;
+            padding: 0 2rem;
         }
 
         .logo {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent), #ff00ff, #00ff88);
-            background-size: 300% 300%;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease infinite;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: -0.05em;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px var(--accent-glow)); }
+            to { filter: drop-shadow(0 0 40px var(--accent-glow)); }
         }
 
-        .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: 300;
+        .hero-content p {
+            font-size: 1.4rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
             opacity: 0.9;
-            max-width: 600px;
-            margin-bottom: 3rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        .warning {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            backdrop-filter: blur(20px);
-            padding: 1.5rem 2rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin: 2rem 0;
-            font-weight: 500;
-            max-width: 600px;
-            box-shadow: 0 20px 40px rgba(255,65,108,0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 20px 40px rgba(255,65,108,0.3); }
-            50% { box-shadow: 0 20px 60px rgba(255,65,108,0.5); }
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+        .download-section {
             max-width: 1200px;
             margin: 4rem auto;
             padding: 0 2rem;
         }
 
-        .card {
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .download-card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px;
-            padding: 2.5rem 2rem;
+            padding: 2.5rem;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
 
-        .card::before {
+        .download-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            height: 2px;
+            background: var(--gradient);
             transition: left 0.5s;
         }
 
-        .card:hover::before {
+        .download-card:hover::before {
             left: 100%;
         }
 
-        .card:hover {
-            transform: translateY(-20px) scale(1.02);
+        .download-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
             border-color: var(--accent);
-            box-shadow: 0 40px 80px var(--accent-glow);
+            box-shadow: 0 30px 60px var(--accent-glow);
         }
 
         .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
             display: block;
         }
 
-        .card h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            background: var(--accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .download-btn {
+            background: var(--gradient);
+            color: black;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            box-shadow: 0 10px 30px var(--accent-glow);
         }
 
-        .card p {
-            opacity: 0.8;
-            line-height: 1.6;
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px var(--accent-glow);
         }
 
-        .cta {
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        footer {
             text-align: center;
             padding: 4rem 2rem;
-            font-size: 1.3rem;
-            font-weight: 500;
-            opacity: 0.9;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            margin-top: 4rem;
         }
 
         @media (max-width: 768px) {
-            .cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .hero { padding: 0 2rem; }
+            .download-grid { grid-template-columns: 1fr; }
+            .hero { min-height: 80vh; }
         }
     </style>
 </head>
 <body>
+    <div class="stars"></div>
+    
+    <header>
+        <nav class="nav">
+            <div class="logo">PS Hub</div>
+        </nav>
+    </header>
+
     <section class="hero">
-        <div class="logo">PS Portal</div>
-        <p class="tagline">Your official gateway to PlayStation gaming on any device</p>
-        
-        <div class="warning">
-            ⚠️ PlayStation OS is proprietary. Downloading for PC is illegal. 
-            Choose official streaming services below!
+        <div class="hero-content">
+            <h1>Emulator Hub</h1>
+            <p>Legal open-source PlayStation emulators & frontends. 
+            Download BIOS-free alternatives and game legally!</p>
         </div>
     </section>
 
-    <section class="cards-grid">
-        <div class="card">
-            <span class="card-icon">🖥️</span>
-            <h3>PS5 Console</h3>
-            <p>Official PlayStation 5 hardware and digital storefront</p>
-            <a href="https://www.playstation.com/en-us/ps5/" target="_blank" 
-               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Launch PS5.com →</a>
-        </div>
+    <section class="download-section">
+        <h2 class="section-title">🚀 Download Legal Emulators</h2>
         
-        <div class="card">
-            <span class="card-icon">📱</span>
-            <h3>Remote Play</h3>
-            <p>Stream your PS5/PS4 games to PC, phone, or tablet</p>
-            <a href="https://remoteplay.dl.playstation.net/remoteplay/lang/en/1100009.html" target="_blank" 
-               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Get Remote Play →</a>
+        <div class="download-grid">
+            <div class="download-card">
+                <i class="fas fa-gamepad card-icon" style="color: #00ff88;"></i>
+                <h3>RetroArch</h3>
+                <p>Multi-platform frontend for PS1/PS2. 
+                Open source & BIOS-free cores available</p>
+                <a href="https://www.retroarch.com/" target="_blank" class="download-btn">
+                    <i class="fas fa-download"></i> Download Free
+                </a>
+            </div>
+
+            <div class="download-card">
+                <i class="fas fa-laptop card-icon" style="color: #00d4ff;"></i>
+                <h3>PCSX2</h3>
+                <p>PS2 emulator (requires legal BIOS dump 
+                from your own console)</p>
+                <a href="https://pcsx2.net/" target="_blank" class="download-btn">
+                    <i class="fas fa-download"></i> Official Site
+                </a>
+            </div>
+
+            <div class="download-card">
+                <i class="fas fa-cloud card-icon" style="color: #8b5cf6;"></i>
+                <h3>EmulationStation</h3>
+                <p>Beautiful frontend for all retro systems. 
+                Works with legal ROMs only</p>
+                <a href="https://emulationstation.org/" target="_blank" class="download-btn">
+                    <i class="fas fa-download"></i> Get Frontend
+                </a>
+            </div>
+
+            <div class="download-card">
+                <i class="fas fa-robot card-icon" style="color: #ff6b6b;"></i>
+                <h3>DuckStation</h3>
+                <p>Modern PS1 emulator. High compatibility, 
+                legal BIOS required</p>
+                <a href="https://www.duckstation.org/" target="_blank" class="download-btn">
+                    <i class="fas fa-download"></i> Download Now
+                </a>
+            </div>
         </div>
-        
-        <div class="card">
-            <span class="card-icon">☁️</span>
-            <h3>PS Plus Premium</h3>
-            <p>Cloud streaming with 400+ PS games on-demand</p>
-            <a href="https://www.playstation.com/en-us/ps-plus/" target="_blank" 
-               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Subscribe Now →</a>
-        </div>
-        
-        <div class="card">
-            <span class="card-icon">🛒</span>
-            <h3>PlayStation Store</h3>
-            <p>Thousands of games, DLC, and exclusives</p>
-            <a href="https://store.playstation.com/" target="_blank" 
-               style="color: var(--accent); text-decoration: none; font-weight: 500; display: block; margin-top: 1rem;">Visit Store →</a>
+
+        <h2 class="section-title">✅ Why It's Legal</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Open Source</h4>
+                <p>Free software, no proprietary code</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-lock-open"></i>
+                <h4>Your BIOS Only</h4>
+                <p>Dump from your own console</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-gamepad"></i>
+                <h4>Your Games Only</h4>
+                <p>Backup your legally purchased games</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-heart"></i>
+                <h4>Support Devs</h4>
+                <p>Buy original games & consoles</p>
+            </div>
         </div>
     </section>
 
-    <div class="cta">
-        🎮 Play legally. Support creators. Game forever.
-    </div>
+    <footer>
+        <p><strong>⚖️ 100% Legal:</strong> Only links to official open-source projects. 
+        Always use BIOS & ROMs from your own hardware.</p>
+        <p>Made with ❤️ for retro gaming preservation</p>
+    </footer>
 </body>
 </html>
