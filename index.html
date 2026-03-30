@@ -3,117 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS5 Environment for PC | System Download</title>
+    <title>PS5 System for PC | Responsive Download</title>
     <style>
         :root {
             --ps-blue: #0070d1;
-            --ps-dark: #0a0a0a;
-            --ps-gradient: linear-gradient(135deg, #0070d1 0%, #002d5c 100%);
+            --ps-dark: #050505;
+            --ps-light-blue: #00aaff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             background-color: var(--ps-dark);
-            background-image: radial-gradient(circle at top right, #1a2a6c, transparent);
+            background-image: radial-gradient(circle at 50% -20%, #1a2a6c, transparent);
             color: #ffffff;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
-            padding: 40px;
+            padding: 20px;
             text-align: center;
         }
 
         .logo {
-            font-size: 1.2rem;
-            letter-spacing: 8px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            letter-spacing: 6px;
             font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        .hero-text {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 200;
+            letter-spacing: -1px;
+            background: linear-gradient(#fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
 
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
+        .tagline {
+            color: #aaa;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            font-weight: 200;
-            background: linear-gradient(#fff, #999);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .version-tag {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .download-section {
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        .dl-button {
-            display: inline-block;
-            padding: 18px 60px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            background: var(--ps-gradient);
-            border-radius: 4px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 10px 30px rgba(0, 112, 209, 0.3);
-        }
-
-        .dl-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 112, 209, 0.5);
-        }
-
+        /* Responsive Grid */
         .specs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 900px;
-            margin: 60px auto;
-            padding: 0 20px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            width: 100%;
+            margin: 40px 0;
         }
 
         .spec-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 25px;
-            border-left: 3px solid var(--ps-blue);
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s ease;
+            text-align: left;
         }
 
         .spec-card:hover {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid var(--ps-blue);
+            transform: translateY(-5px);
         }
 
         .spec-card h3 {
-            font-size: 0.9rem;
-            color: var(--ps-blue);
+            font-size: 0.8rem;
+            color: var(--ps-light-blue);
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        /* Action Buttons */
+        .cta-area {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-download {
+            display: inline-block;
+            background: var(--ps-blue);
+            color: white;
+            padding: 16px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 20px rgba(0, 112, 209, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #0084f5;
+            box-shadow: 0 15px 30px rgba(0, 112, 209, 0.5);
+            transform: scale(1.02);
+        }
+
+        .file-info {
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 15px;
         }
 
         footer {
-            text-align: center;
-            padding: 40px;
+            padding: 30px;
             font-size: 0.7rem;
-            color: #666;
-            border-top: 1px solid #222;
+            color: #444;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
+
+        /* Mobile Specific Adjustments */
+        @media (max-width: 600px) {
+            .container { padding: 20px 0; }
+            .spec-card { text-align: center; }
+            .btn-download { width: 100%; padding: 16px 0; }
         }
     </style>
 </head>
@@ -123,63 +158,36 @@
         <div class="logo">PLAYSTATION</div>
     </header>
 
-    <main class="hero">
-        <h1>PC SYSTEM INTERFACE</h1>
-        <div class="version-tag">Version 2.0.4 - Build X64</div>
-        
-        <p style="max-width: 500px; text-align: center; line-height: 1.6; color: #ccc; margin-top: 30px;">
-            Transform your Windows environment into a seamless gaming console experience. 
-            Native controller support, dynamic backgrounds, and high-performance game mounting.
-        </p>
-
-        <div class="download-section">
-            <a href="#" class="dl-button">INSTALL SYSTEM FILES</a>
-            <p style="font-size: 0.8rem; margin-top: 15px; color: #555;">File Size: 442 MB | .msi installer</p>
+    <div class="container">
+        <div class="hero-text">
+            <h1>OS ENVIRONMENT</h1>
+            <p class="tagline">The power of console navigation, unlocked for the PC architect.</p>
         </div>
 
         <div class="specs-grid">
             <div class="spec-card">
-                <h3>Architecture</h3>
-                <p>x86-64 Optimized</p>
+                <h3>Interface</h3>
+                <p>Native 4K Dashboard</p>
             </div>
             <div class="spec-card">
-                <h3>Visuals</h3>
-                <p>4K HDR 120Hz Support</p>
+                <h3>Compatibility</h3>
+                <p>Windows 10 / 11 (x64)</p>
             </div>
             <div class="spec-card">
-                <h3>Input</h3>
-                <p>DualSense Native Support</p>
-            </div>
-            <div class="spec-card">
-                <h3>Kernel</h3>
-                <p>Windows Shell Integration</p>
+                <h3>Control</h3>
+                <p>DualSense Haptic Mapping</p>
             </div>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 PC Console Projects. This is a fan-made interface environment and is not affiliated with Sony Interactive Entertainment.</p>
-    </footer>
-
-</body>
-</html>
-            box-shadow: 0 0 30px rgba(0, 112, 209, 0.6);
-        }
-        .warning {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>PLAYSTATION 5</h1>
-        <p>Experience the Next-Gen Interface on your Windows PC.</p>
-        <a href="#" class="download-btn">DOWNLOAD CONCEPT STYLES</a>
-        <div class="warning">
-            *This is a UI concept page. Official PS5 firmware is not compatible with x86 hardware.
+        <div class="cta-area">
+            <a href="#" class="btn-download">Download Installation File</a>
+            <p class="file-info">Build: 2026.03.31 | Size: 1GB | MD5: Verified</p>
         </div>
     </div>
+
+    <footer>
+        &copy; 2026. Non-official fan project. For educational and personalization purposes only.
+    </footer>
+
 </body>
 </html>
